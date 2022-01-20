@@ -602,6 +602,7 @@ _ostree_repo_bare_content_commit (OstreeRepo                 *self,
       g_assert_cmpint (self->txn.blocksize, >, 0);
 
       const fsblkcnt_t object_blocks = (st_buf.st_size / self->txn.blocksize) + 1;
+      printf("[buffer_size]: %ld, [blocksize]: %ld, object_blocks: %ld, [max_blocks]: %ld\n", st_buf.st_size, self->txn.blocksize, object_blocks, self->txn.max_blocks);
       if (object_blocks > self->txn.max_blocks)
         {
           self->cleanup_stagedir = TRUE;
@@ -1001,6 +1002,7 @@ write_content_object (OstreeRepo         *self,
       g_mutex_lock (&self->txn_lock);
       g_assert_cmpint (self->txn.blocksize, >, 0);
       const fsblkcnt_t object_blocks = (size / self->txn.blocksize) + 1;
+      printf("[buffer_size]: %ld, [blocksize]: %ld, object_blocks: %ld, [max_blocks]: %ld\n", size, self->txn.blocksize, object_blocks, self->txn.max_blocks);
       if (object_blocks > self->txn.max_blocks)
         {
           guint64 bytes_required = (guint64)object_blocks * self->txn.blocksize;
